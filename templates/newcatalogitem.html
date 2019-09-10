@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Item Catalog Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel=stylesheet type=text/css  href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="topnav">
+  <a class="active" href="{{ url_for('catalogMenu')}}">Catalog App</a>
+  {% if 'username' in login_session: %}
+  <form method=GET action="/gdisconnect">
+      <button class="loginbutton" type="submit">Logout</button>
+  </form>
+  {% endif %}
+  </div>
+<h1> New Catalog Item </h1>
+<form action="{{url_for('newCatalogItem', catalog_id=catalog_id )}}" method = 'POST'>
+ <p>Catalog Item Name:
+ <input type='text' size='30' name='name' placeholder="Enter the Catalog Item Name" required></p></br>
+ <p>Item Description:
+ <input type='text' size='30' class="textbox" name='description'  placeholder="Enter the Item Description" required></p></br></br>
+ <input type='submit' value='Create'>
+ <a href= "{{ url_for('catalogItemList', catalog_id = catalog_id)}}"> Cancel </a>
+</form>
+</body>
+</html>

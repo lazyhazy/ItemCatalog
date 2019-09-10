@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Item Catalog Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel=stylesheet type=text/css  href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+  <script>
+    function start() {
+      gapi.load('auth2', function() {
+        auth2 = gapi.auth2.init({
+          client_id: '279214556028-2icu5ti37k46nlagvgrmnbgkv6sdp00v.apps.googleusercontent.com'
+        });
+      });
+    }
+  </script>
+</head>
+<body>
+  <div class="topnav">
+  <a class="active" href="{{ url_for('catalogMenu')}}">Catalog App</a>
+  </div>
+
+ <!-- GOOGLE PLUS SIGN IN BUTTON-->
+ <div class="login-box">
+ <p class="login-title">Login to Catalog</p>
+ <p class="login-title-info">using</p>
+ <button class="signinButton" id="signinButton">Google</button>
+</div>
+<script>
+  $('#signinButton').click(function() {
+    function signInCallback(authResult){
+      if (authResult['code']){
+        $('#signinButton').attr('style', 'display: none');
+        $.ajax({
+          type: 'POST',
+          url: '/gconnect?state={{STATE}}',
+          headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+          },
+          contentType: 'application/octet-stream; charset=utf-8',
+          success:function(result){
+            $('.login-box').html('Login Successful!</br>'+ result + '</br>Redirecting to .....')
+                 setTimeout(function() {
+                   if ('{{redirect_url}}' != 'None')
+                          window.location.href = '{{redirect_url}}';
+                   else
+                     window.location.href= "/catalog";
+                 }, 2000);
+          },
+          processData:false,
+          data:authResult['code']
+        });
+      } else{
+        // handle error
+        console.log('There was an error: ' + authResult['error']);
+        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+      }
+    }
+    auth2.grantOfflineAccess().then(signInCallback);
+  });
+</script>
+</body>
+</html>

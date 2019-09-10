@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Item Catalog Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel=stylesheet type=text/css  href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="topnav">
+  <a class="active" href="{{ url_for('catalogMenu')}}">Catalog App</a>
+  {% if 'username' not in login_session: %}
+  <form method=GET action="/catalog/login">
+      <button class="loginbutton" type="submit">Login</button>
+  </form>
+  {% else %}
+  <form method=GET action="/gdisconnect">
+      <button class="loginbutton" type="submit">Logout</button>
+  </form>
+  {% endif %}
+  </div>
+  <section class="catalog">
+  <nav>
+    <h1> Categories </h1>
+    <ul>
+      {% for i in catalog %}
+      <li><a href="{{url_for('catalogItemList', catalog_id=i.id )}}"> {{i.name}} </a></li>
+      {% endfor %}
+    </ul>
+   </nav>
+ </section>
+<section class="catalogview">
+      <h1> Latest Items </h1>
+      <ul>
+        {% for i in sortedItem %}
+          {% for j in catalog %}
+            {% if j.id == i.catalog_id %}
+                <li><a href="{{url_for('viewCatalogItem', catalog_id=j.id, catalogitem_id=i.id )}}"> {{i.name}}
+                  <i class="parent">({{j.name}})</i>
+                </a></li>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </ul>
+</section>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Item Catalog Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel=stylesheet type=text/css  href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="topnav">
+<a class="active" href="{{ url_for('catalogMenu')}}">Catalog App</a>
+{% if 'username' in login_session: %}
+<form method=GET action="/gdisconnect">
+    <button class="loginbutton" type="submit">Logout</button>
+</form>
+{% endif %}
+</div>
+<div class="deletecontainer">
+<h1> Are you sure you want to delete {{catalogitem.name}}? </h1>
+<form action="{{ url_for('deleteCatalogItem', catalog_id=catalogitem.catalog_id, catalogitem_id=catalogitem.id)}}" method = 'post'>
+<input type='submit', value = 'Delete'>
+</form>
+<a href = "{{ url_for('catalogItemList', catalog_id = catalogitem.catalog_id)}}"> Cancel </a>
+</div>
+</body>
+</html>

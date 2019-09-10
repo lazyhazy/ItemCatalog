@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Item Catalog Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel=stylesheet type=text/css  href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="topnav">
+<a class="active" href="{{ url_for('catalogMenu')}}">Catalog App</a>
+{% if 'username' in login_session: %}
+<form method=GET action="/gdisconnect">
+    <button class="loginbutton" type="submit">Logout</button>
+</form>
+{% endif %}
+</div>
+<form action= "{{url_for('editCatalogItem', catalog_id = catalog_id, catalogitem_id=catalogitem.id)}}" method = 'POST'>
+ <p>Name:</p>
+ <input type = 'text' size='30' name = 'name' value="{{catalogitem.name}}"required>
+ <p>Description:</p>
+ <input type = 'text' size='30' name = 'description' value="{{catalogitem.description}}" required> 
+ <p>Catalog:</p>
+ <select name= 'catalog_name'>
+ {% for i in catalog %}
+ <option value='{{i.name}}' {% if i.id == catalog_id %} selected="selected"{% endif %}>{{i.name}}</option>
+ {% endfor %}
+ </select>
+ </br>
+ <input type='submit' value='Edit'>
+</form>
+<a href= "{{ url_for('catalogItemList', catalog_id = catalogitem.catalog_id)}}">Cancel</a>
+</body>
+</html>

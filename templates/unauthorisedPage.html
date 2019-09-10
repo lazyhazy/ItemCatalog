@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Item Catalog Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel=stylesheet type=text/css  href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="topnav">
+  <a class="active" href="{{ url_for('catalogMenu')}}">Catalog App</a>
+  </div>
+  <div class="login-box">
+  <p class="error-title">Unauthorised Error</p>
+  <p class="error-title-info">You are not authorised to do this operation. Click <a href="{{ url_for('catalogMenu')}}">here</a> to go to home page.</p>
+  </div>
+</body>
+</html>
